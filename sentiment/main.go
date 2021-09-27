@@ -31,14 +31,14 @@ func calculateSentiment(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	scores := scores{}
+	scores := Scores{}
 
-	for year := 2018; year <= 2019; year++ {
+	for year := 2019; year <= 2019; year++ {
 		strYear := fmt.Sprint(year)
 		var yearlySentiment float64
 
 		for month := 1; month <= 12; month++ {
-			time.Sleep(time.Second * 10)
+			time.Sleep(time.Second * 6)
 			strMonth := fmt.Sprint(month)
 			url := "https://api.nytimes.com/svc/archive/v1/" + strYear + "/" + strMonth + ".json?api-key=" + apiKey
 
@@ -72,24 +72,28 @@ func calculateSentiment(w http.ResponseWriter, r *http.Request) {
 		}
 		fmt.Println("yearly sentiment for", strYear, yearlySentiment)
 		scores = append(scores, SentimentStruct{
-			year:           strYear,
-			sentimentScore: yearlySentiment,
+			Year:           strYear,
+			SentimentScore: yearlySentiment,
 		})
 	}
+
+	fmt.Println("scores:", scores)
 
 	response, err := json.Marshal(scores)
 	if err != nil {
 		panic(err)
 	}
 
+	fmt.Println("response:", string(response))
+
 	w.Write(response)
 }
 
-type scores []SentimentStruct
+type Scores []SentimentStruct
 
 type SentimentStruct struct {
-	year           string
-	sentimentScore float64
+	Year           string
+	SentimentScore float64
 }
 
 type articleTitles struct {
