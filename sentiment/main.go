@@ -33,7 +33,7 @@ func calculateSentiment(w http.ResponseWriter, r *http.Request) {
 
 	scores := Scores{}
 
-	for year := 2019; year <= 2019; year++ {
+	for year := 2010; year <= 2019; year++ {
 		strYear := fmt.Sprint(year)
 		var yearlySentiment float64
 
